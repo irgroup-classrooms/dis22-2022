@@ -7,9 +7,10 @@ import urllib
 import requests
 from numpy import random
 from datetime import datetime
+import string
 
-from . import parsing
-from . import logger
+import parsing
+import logger
 log = logger.Logger().start()
 
 ##-----------------------------------------------------------------------------
@@ -56,21 +57,56 @@ def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
 
     sesh = sesh if sesh else requests.Session()
 
-    base = get_bing_url() if source == 'bing' else get_google_url() 
-    url = base + prepare_qry(qry)
+    base = get_bing_url() if source == 'bing' else get_google_url()
 
+    url = base + prepare_qry(qry +' a')
+    
     # Sleep
     time.sleep(sleep) if sleep else sleep_random()
     log.info('%s | %s', '%s' % source, qry)
     try:
         response = sesh.get(url, timeout=10)
         if source == 'google':
-            return json.loads(response.content)
+            output = json.loads(response.content.decode('latin-1'))
         elif source == 'bing':
-            return response.content.decode('utf-8')
+            output = [response.content.decode('utf-8')]
     except Exception as e:
         log.exception('ERROR SCRAPING: request[%s]', response.status_code)
         pass
+
+
+    abc = list(string.ascii_lowercase)
+    abc.remove('a')
+
+    #abc = ['b','c']
+
+    for letter in abc:
+        url = base + prepare_qry(qry + ' '+ letter)
+
+        # Sleep
+        time.sleep(sleep) if sleep else sleep_random()
+        log.info('%s | %s', '%s' % source, qry)
+        try:
+            response = sesh.get(url, timeout=10)
+            if source == 'google':
+                query_extension = json.loads(response.content.decode('latin-1'))
+                query_extension = query_extension[1]
+            elif source == 'bing':
+                query_extension = response.content.decode('utf-8')
+            
+            if source == 'google':
+                for item in query_extension:
+                    output[1].append(item)
+            if source == 'bing':
+                output.append(query_extension)
+
+        except Exception as e:
+            log.exception('ERROR SCRAPING: request[%s]', response.status_code)
+            pass
+        
+        
+
+    return output
 
 
 ##-----------------------------------------------------------------------------

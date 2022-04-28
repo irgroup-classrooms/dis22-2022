@@ -8,7 +8,7 @@ import urllib.parse
 from bs4 import BeautifulSoup
 from collections import OrderedDict
 
-from . import logger
+import logger
 log = logger.Logger().start(__name__)
 
 def get_source_target_columns(edges):
@@ -62,6 +62,7 @@ def parse_bing_qry(raw_html, qry=''):
 def parse_bing(raw_html, qry=''):
     
     def bing_parser(raw_html):
+        raw_html = ' '.join(raw_html)
         soup = BeautifulSoup(raw_html, 'html.parser')
         if not soup.text:
             # No suggestions
