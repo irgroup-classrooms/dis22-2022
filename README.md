@@ -8,10 +8,10 @@
 ## Zuteilung der Teams
 
 ### RAI
-* Paul Nebatz
+* Paul Nebatz (f)
 * Oliver Kubon
 * Maximilian Pekarksi
-* Jannik Loose
+* Jannik Loose (f)
 * Alexander Courtpozanis
 
 ### Queries
@@ -19,10 +19,10 @@
 * Helga Wolff
 * Janina Blum
 * Lotte Haupt
-* Tine Puddu
+* Tina Puddu (f)
 
 ### Analyse
 * Julia Landsiedel
-* Anna Schmer
-* Lukas Vetter
-* Pascal Pelzers
+* Anna Schmer 
+* Lukas Vetter (f)
+* Pascal Pelzers (e)
