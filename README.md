@@ -11,7 +11,7 @@
 * Paul Nebatz (f)
 * Oliver Kubon
 * Maximilian Pekarksi
-* Jannik Loose (f)
+* Jannik Loose 
 * Alexander Courtpozanis
 
 ### Queries
