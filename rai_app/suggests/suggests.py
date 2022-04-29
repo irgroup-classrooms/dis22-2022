@@ -25,10 +25,10 @@ def prepare_qry(qry):
     return urllib.parse.quote_plus(qry)
 
 def get_google_url():
-    return 'https://www.google.com/complete/search?sclient=psy-ab&hl=en&q='
+    return 'https://www.google.de/complete/search?sclient=psy-ab&hl=en&q='
 
 def get_bing_url(cvid='&cvid=CF23583902D944F1874B7D9E36F452CD'):
-    return f'http://www.bing.com/AS/Suggestions?&mkt=en-us{cvid}&q='
+    return f'http://www.bing.de/AS/Suggestions?&mkt=en-us{cvid}&q='
 
 def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
     """Scraper with logging and specified user agent
@@ -75,10 +75,10 @@ def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
         pass
 
 
-    abc = list(string.ascii_lowercase)
-    abc.remove('a')
+    #abc = list(string.ascii_lowercase)
+    #abc.remove('a')
 
-    #abc = ['b','c']
+    abc = ['b','c']
 
     for letter in abc:
         url = base + prepare_qry(qry + ' '+ letter)
