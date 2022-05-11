@@ -72,9 +72,9 @@ def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
         log.exception('ERROR SCRAPING: request[%s]', response.status_code)
         return False
     except SystemExit:
-        pass
+        return False
     except KeyboardInterrupt:
-        pass
+        return False
 
 
 ##-----------------------------------------------------------------------------
