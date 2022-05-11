@@ -141,12 +141,9 @@ def get_suggests_tree(root, source='bing', max_depth=3, save_to='', sesh=None,
     root_branch['crawl_id'] = crawl_id
 
     if save_to:
-        try:
-            outfile = open(save_to, 'a+')
-            outdata = json.dumps(root_branch)
-            outfile.write(f'{outdata}\n')
-        finally:
-            outfile.close()
+        outfile = open(save_to, 'a+')
+        outdata = json.dumps(root_branch)
+        outfile.write(f'{outdata}\n')
 
     # Initialize list of suggestion dicts for output
     tree = [root_branch]
