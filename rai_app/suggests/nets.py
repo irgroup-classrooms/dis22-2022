@@ -31,6 +31,8 @@ def get_root_component(g, root):
     for subgraph in weak_subgraphs:
         if subgraph.has_node(root):
             return subgraph
+        else:
+            return False
 
 def find_unreachable_nodes(g, root):
     # Find isolated nodes

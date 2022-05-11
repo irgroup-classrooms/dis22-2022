@@ -8,8 +8,8 @@ import requests
 from numpy import random
 from datetime import datetime
 
-from . import parsing
-from . import logger
+import parsing
+import logger
 log = logger.Logger().start()
 
 ##-----------------------------------------------------------------------------
@@ -70,7 +70,7 @@ def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
             return response.content.decode('utf-8')
     except Exception as e:
         log.exception('ERROR SCRAPING: request[%s]', response.status_code)
-        pass
+        return False
 
 
 ##-----------------------------------------------------------------------------
@@ -140,6 +140,7 @@ def get_suggests_tree(root, source='bing', max_depth=3, save_to='', sesh=None,
         outfile = open(save_to, 'a+')
         outdata = json.dumps(root_branch)
         outfile.write(f'{outdata}\n')
+        outfile.close()
 
     # Initialize list of suggestion dicts for output
     tree = [root_branch]
