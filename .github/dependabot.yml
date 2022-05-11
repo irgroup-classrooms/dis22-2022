@@ -1,0 +1,9 @@
+# Run weekly checks using Dependabot to update dependencies automatically
+
+version: 2
+updates:
+  # configuring for pipenv
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
