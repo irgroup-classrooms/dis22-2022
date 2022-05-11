@@ -22,22 +22,10 @@
 
 ## Zuteilung der Teams
 
-### RAI
-* Paul Nebatz (f)
-* Oliver Kubon
-* Maximilian Pekarksi
-* Jannik Loose 
-* Alexander Courtpozanis
-
-### Queries
-* Amilian Paramalingan
-* Helga Wolff
-* Janina Blum
-* Lotte Haupt
-* Tina Puddu (f)
-
-### Analyse
-* Julia Landsiedel
-* Anna Schmer 
-* Lukas Vetter (f)
-* Pascal Pelzers (e)
+|RAI                    |Queries              |Analyse            |
+|-----------------------|---------------------|-------------------|
+|Paul Nebatz (f)        |Tina Puddu (f)       |Lukas Vetter (f)   |
+|Oliver Kubon           |Amilian Paramalingan |Pascal Pelzers (e) |
+|Maximilian Pekarksi    |Helga Wolff          |Julia Landsiedel   |
+|Jannik Loose           |Janina Blum          |Anna Schmer        |
+|Alexander Courtpozanis |Lotte Haupt          |                   |
