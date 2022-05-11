@@ -37,4 +37,4 @@ jobs:
           pipenv install --dev
       - name: Run test suite
         run: |
-          pipenv run test -v
+          pipenv run test -m it -v
