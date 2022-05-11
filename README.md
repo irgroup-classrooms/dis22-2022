@@ -13,7 +13,7 @@
 ![](https://img.shields.io/github/last-commit/irgroup-classrooms/dis22-2022)
 ![](https://img.shields.io/github/license/irgroup-classrooms/dis22-2022)
 ![](https://img.shields.io/github/downloads/irgroup-classrooms/dis22-2022/total)
-![](https://img.shields.io/github/workflow/status/irgroup-classrooms/dis22-2022/rai-app)
+![](https://img.shields.io/github/workflow/status/irgroup-classrooms/dis22-2022/RAI-Package?logo=GitHub&label=Test)
 
 ## Kick-off Meeting
 
