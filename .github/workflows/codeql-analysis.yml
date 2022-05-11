@@ -5,11 +5,11 @@ name: CodeQL Security and Quality Scanning
 on:
   push:
     branches:
-    - main
+    - 15-umgang-mit-legacy-problemen
   pull_request:
     # The branches below must be a subset of the branches above
     branches:
-    - main
+    - 15-umgang-mit-legacy-problemen
   schedule:
     - cron: '30 1 * * 2'
 
