@@ -1,6 +1,6 @@
 # Automatic code scanning for security and quality
 
-name: CodeQL Security and Quality Scanning
+name: Security Scanning
 
 on:
   push:
@@ -10,6 +10,7 @@ on:
     # The branches below must be a subset of the branches above
     branches:
     - main
+    - development
   schedule:
     - cron: '30 1 * * 2'
 
