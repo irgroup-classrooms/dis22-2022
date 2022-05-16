@@ -8,7 +8,7 @@ import urllib.parse
 from bs4 import BeautifulSoup
 from collections import OrderedDict
 
-from . import logger
+import logger
 log = logger.Logger().start(__name__)
 
 def get_source_target_columns(edges):
@@ -46,7 +46,7 @@ def parse_google(json_data, qry=''):
         qry, suggests, tags = google_parser(json_data)
         self_loops = [i for i, s in enumerate(suggests) if s == qry]
         parsed = {'suggests': suggests, 'self_loops':self_loops, 'tags': tags}
-    except:
+    except Exception:
         log.exception('ERROR PARSING GOOGLE:\n%s', json_data)
         parsed = {'suggests':[], 'self_loops':[], 'tags':[]}
     return parsed
@@ -62,6 +62,7 @@ def parse_bing_qry(raw_html, qry=''):
 def parse_bing(raw_html, qry=''):
     
     def bing_parser(raw_html):
+        raw_html = ' '.join(raw_html)
         soup = BeautifulSoup(raw_html, 'html.parser')
         if not soup.text:
             # No suggestions
@@ -74,7 +75,7 @@ def parse_bing(raw_html, qry=''):
         suggests = bing_parser(raw_html)
         self_loops = [i for i, s in enumerate(suggests) if s == qry]
         parsed = {'suggests':suggests, 'self_loops':self_loops, 'tags':[]}
-    except:
+    except Exception:
         log.exception('ERROR PARSING BING:\n%s', raw_html)
         parsed = {'suggests':[], 'self_loops':[], 'tags':[]}
     return parsed

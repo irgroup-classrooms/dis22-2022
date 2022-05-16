@@ -6,6 +6,7 @@ on:
   push:
     branches:
     - main
+    - 15-umgang-mit-legacy-problemen
   pull_request:
     # The branches below must be a subset of the branches above
     branches:
