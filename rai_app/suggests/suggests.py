@@ -72,7 +72,11 @@ def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
             output = [response.content.decode('utf-8')]
     except Exception as e:
         log.exception('ERROR SCRAPING: request[%s]', response.status_code)
-        pass
+        return False
+    except SystemExit:
+        return False
+    except KeyboardInterrupt:
+        return False
 
 
     #abc = list(string.ascii_lowercase)

@@ -1,0 +1,40 @@
+# This workflow runs unit tests for the RAI package
+
+name: rai unit testing
+
+on:
+  push:
+    branches:
+    - main
+    - development/*
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.8"
+    - name: Install pipenv
+      run: |
+        python -m pip install --upgrade pipenv wheel
+    - id: cache-pipenv
+      uses: actions/cache@v2
+      with:
+        path: ~/.local/share/virtualenvs
+        key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
+    - name: Install dependencies
+      if: steps.cache-pipenv.outputs.cache-hit != 'true'
+      run: |
+        pipenv install --dev
+    - name: Run test suite
+      run: |
+        pipenv run test -m ut -v
