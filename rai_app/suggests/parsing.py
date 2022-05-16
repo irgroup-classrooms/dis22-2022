@@ -62,6 +62,7 @@ def parse_bing_qry(raw_html, qry=''):
 def parse_bing(raw_html, qry=''):
     
     def bing_parser(raw_html):
+        raw_html = ' '.join(raw_html)
         soup = BeautifulSoup(raw_html, 'html.parser')
         if not soup.text:
             # No suggestions
