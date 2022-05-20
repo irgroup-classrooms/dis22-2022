@@ -5,8 +5,10 @@ name: rai unit testing
 on:
   push:
     branches:
-    - main
-    - development/*
+      - main
+      - 'development/**'
+    paths:
+      - '**.py'
 
 permissions:
   contents: read
