@@ -7,6 +7,8 @@ on:
     branches:
     - main
     - development
+    paths:
+    - '**.py'
 
 permissions:
   contents: read
