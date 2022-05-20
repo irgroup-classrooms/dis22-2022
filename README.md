@@ -28,3 +28,9 @@ Please see our [Security Policy](SECURITY.md) to verify which version is still r
 |Maximilian Pekarksi    |Helga Wolff          |Julia Landsiedel   |
 |Jannik Loose           |Janina Blum          |Anna Schmer        |
 |Alexander Courtpozanis |Lotte Haupt          |                   |
+
+
+## How to use
+- Das Programm lässt sich mit der main.py starten. 
+- Im selben Verzeichnis wird eine querries.xlsx Datei benötigt. Es müssen mindestens die Spalten 'Name' und 'Vorname'vorhanden sein
+- Im selben Verzeichnis wird dann eine output.csv erstellt
