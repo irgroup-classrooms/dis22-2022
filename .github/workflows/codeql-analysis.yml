@@ -11,6 +11,8 @@ on:
     branches:
     - main
     - development
+    paths:
+    - '**.py'
   schedule:
     - cron: '30 1 * * 2'
 
