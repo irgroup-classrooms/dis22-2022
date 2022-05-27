@@ -3,8 +3,8 @@ import pandas as pd
 from rai_app import suggests
 
 def load_data():
-    file = 'querries.xlsx'
-    df = pd.read_excel(file)
+    path = 'rai_app/import_file/import.xlsx'
+    df = pd.read_excel(path)
     df['querrys'] = df['Vorname'] + ' ' + df['Name'] # create querry term column 
     return df
 
@@ -33,7 +33,7 @@ def main():
         # Append output to df
         output = output.append(edges)
 
-    output.to_csv('output.csv')
+    output.to_csv('rai_app/export_file/output.csv')
 
 if __name__ == "__main__":
     main()
