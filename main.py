@@ -1,6 +1,7 @@
 from re import L
 import pandas as pd
 from rai_app import suggests
+import os
 
 def load_data():
     file = 'querries.xlsx'
@@ -36,4 +37,5 @@ def main():
     output.to_csv('output.csv')
 
 if __name__ == "__main__":
+    print(os.getcwd())
     main()

@@ -9,8 +9,8 @@ from numpy import random
 from datetime import datetime
 import string
 
-import parsing
-import logger
+from . import parsing
+from . import logger
 log = logger.Logger().start()
 
 ##-----------------------------------------------------------------------------

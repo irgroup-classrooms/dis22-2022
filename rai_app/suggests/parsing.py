@@ -8,7 +8,7 @@ import urllib.parse
 from bs4 import BeautifulSoup
 from collections import OrderedDict
 
-import logger
+from . import logger
 log = logger.Logger().start(__name__)
 
 def get_source_target_columns(edges):
