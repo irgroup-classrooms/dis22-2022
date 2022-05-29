@@ -3,18 +3,19 @@ import pandas as pd
 from rai_app import suggests
 import os
 
+
 def load_data(file):
     df = pd.read_excel(file)
     df['querrys'] = df['Vorname'] + ' ' + df['Name'] # create querry term column 
     return df
 
 def get_user_input():
-    #input_source = input('Which search engine? Available selection: "google" or "bing"\n Input: ')
+    input_source = input('Which search engine? Available selection: "google" or "bing"\n Input: ')
     input_max_depth = int(input('To what maximum depth should the search be carried out? Note: It is recommended to start with 1 \n Input: '))
-    #user_input = {'source': input_source, 'max_depth': input_max_depth}
-    user_input = {'source': 'bing', 'max_depth': input_max_depth}
+    user_input = {'source': input_source,
+             'max_depth': input_max_depth}
     return user_input
-
+  
 def export_to_csv(df, path, sep=';'):
     df.to_csv(path, sep)
 
@@ -26,7 +27,6 @@ def main():
     df = pd.DataFrame()
 
     user_input = get_user_input()
-
     # Crawl querrys and safe output 
     for querry in file['querrys']:
         # Generating a suggestions tree
