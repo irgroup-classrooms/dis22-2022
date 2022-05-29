@@ -1,6 +1,7 @@
 from re import L
 import pandas as pd
 from rai_app import suggests
+import os
 
 def load_data():
     file = 'querries.xlsx'
@@ -28,12 +29,16 @@ def main():
         # Reduce to new information obtained in suggestions
         edges = suggests.to_edgelist(tree)
         edges = suggests.add_parent_nodes(edges)
-        edges = edges.apply(suggests.add_metanodes, axis=1)
+        try:
+            edges = edges.apply(suggests.add_metanodes, axis=1)
+            # Append output to df
+            output = pd.concat([output,edges])
+        except AttributeError:
+            pass
 
-        # Append output to df
-        output = output.append(edges)
 
-    output.to_csv('output.csv')
+    output.to_csv('output.csv', sep=';')
 
 if __name__ == "__main__":
+    print(os.getcwd())
     main()

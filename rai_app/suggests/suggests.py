@@ -9,8 +9,8 @@ from numpy import random
 from datetime import datetime
 import string
 
-import parsing
-import logger
+from . import parsing
+from . import logger
 log = logger.Logger().start()
 
 ##-----------------------------------------------------------------------------
@@ -79,10 +79,10 @@ def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
         return False
 
 
-    #abc = list(string.ascii_lowercase)
-    #abc.remove('a')
+    abc = list(string.ascii_lowercase)
+    abc.remove('a')
 
-    abc = ['b','c']
+    #abc = ['b','c']
 
     for letter in abc:
         url = base + prepare_qry(qry + ' '+ letter)
