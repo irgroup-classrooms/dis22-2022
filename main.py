@@ -3,8 +3,8 @@ import pandas as pd
 from rai_app import suggests
 import os
 
-def load_data():
-    file = 'querries.xlsx'
+
+def load_data(file):
     df = pd.read_excel(file)
     df['querrys'] = df['Vorname'] + ' ' + df['Name'] # create querry term column 
     return df
@@ -15,14 +15,20 @@ def get_user_input():
     user_input = {'source': input_source,
              'max_depth': input_max_depth}
     return user_input
+  
+def export_to_csv(df, path, sep=';'):
+    df.to_csv(path, sep)
 
 def main():
-    input = load_data()
-    output = pd.DataFrame()
-    user_input = get_user_input()
+    import_path = 'rai_app/import_file/import.xlsx'
+    export_path = 'rai_app/export_file/export.csv'
 
+    file = load_data(import_path)
+    df = pd.DataFrame()
+
+    user_input = get_user_input()
     # Crawl querrys and safe output 
-    for querry in input['querrys']:
+    for querry in file['querrys']:
         # Generating a suggestions tree
         tree = suggests.get_suggests_tree(querry.lower(), source=user_input['source'], max_depth=user_input['max_depth'])
         
@@ -32,12 +38,13 @@ def main():
         try:
             edges = edges.apply(suggests.add_metanodes, axis=1)
             # Append output to df
-            output = pd.concat([output,edges])
+            df = pd.concat([df,edges])
         except AttributeError:
             pass
 
-
-    output.to_csv('output.csv', sep=';')
+    # Export
+    export_to_csv(df, export_path)
+ 
 
 if __name__ == "__main__":
     print(os.getcwd())
