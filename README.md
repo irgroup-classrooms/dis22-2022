@@ -31,6 +31,6 @@ Please see our [Security Policy](SECURITY.md) to verify which version is still r
 
 
 ## How to use
-- Das Programm lässt sich mit der main.py starten. 
-- Im selben Verzeichnis wird eine querries.xlsx Datei benötigt. Es müssen mindestens die Spalten 'Name' und 'Vorname'vorhanden sein
-- Im selben Verzeichnis wird dann eine output.csv erstellt
+- Das Programm lässt sich mit der main.py starten
+- Im Verzeichnis rai_app/import_file wird eine import.xlsx Datei benötigt. Es müssen mindestens die Spalten 'Name' und 'Vorname'vorhanden sein
+- Im Verzeichnis rai_app/export_file wird eine export.csv erstellt
