@@ -11,26 +11,32 @@ import string
 
 from . import parsing
 from . import logger
+
 log = logger.Logger().start()
+
 
 ##-----------------------------------------------------------------------------
 ##  Scraper
 ##-----------------------------------------------------------------------------
 
-def sleep_random(x=0.7, y=1.4):
+def _sleep_random(x=0.7, y=1.4):
     """Sleep a random time with noise between x and y seconds"""
-    time.sleep(random.uniform(x,y))
-    
-def prepare_qry(qry):
+    time.sleep(random.uniform(x, y))
+
+
+def _prepare_qry(qry):
     return urllib.parse.quote_plus(qry)
 
-def get_google_url():
+
+def _get_google_url():
     return 'https://www.google.de/complete/search?sclient=psy-ab&hl=de&q='
 
-def get_bing_url(cvid='&cvid=CF23583902D944F1874B7D9E36F452CD'):
+
+def _get_bing_url(cvid='&cvid=CF23583902D944F1874B7D9E36F452CD'):
     return f'http://www.bing.de/AS/Suggestions?&mkt=de-de{cvid}&q='
 
-def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
+
+def _scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
     """Scraper with logging and specified user agent
     
     Parameters
@@ -53,16 +59,16 @@ def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
     request.reponse
         Either an HTML (bing) or a JSON (google) response based on source
     """
-    assert source in ['bing','google'], "Must select bing or google as source"
+    assert source in ['bing', 'google'], "Must select bing or google as source"
 
     sesh = sesh if sesh else requests.Session()
 
-    base = get_bing_url() if source == 'bing' else get_google_url()
+    base = _get_bing_url() if source == 'bing' else _get_google_url()
 
-    url = base + prepare_qry(qry +' a')
-    
+    url = base + _prepare_qry(qry + ' a')
+
     # Sleep
-    time.sleep(sleep) if sleep else sleep_random()
+    time.sleep(sleep) if sleep else _sleep_random()
     log.info('%s | %s', '%s' % source, qry)
     try:
         response = sesh.get(url, timeout=10)
@@ -78,17 +84,16 @@ def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
     except KeyboardInterrupt:
         return False
 
-
     abc = list(string.ascii_lowercase)
     abc.remove('a')
 
-    #abc = ['b','c']
+    # abc = ['b','c']
 
     for letter in abc:
-        url = base + prepare_qry(qry + ' '+ letter)
+        url = base + _prepare_qry(qry + ' ' + letter)
 
         # Sleep
-        time.sleep(sleep) if sleep else sleep_random()
+        time.sleep(sleep) if sleep else _sleep_random()
         log.info('%s | %s', '%s' % source, qry)
         try:
             response = sesh.get(url, timeout=10)
@@ -97,7 +102,7 @@ def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
                 query_extension = query_extension[1]
             elif source == 'bing':
                 query_extension = response.content.decode('utf-8')
-            
+
             if source == 'google':
                 for item in query_extension:
                     output[1].append(item)
@@ -107,8 +112,6 @@ def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
         except Exception as e:
             log.exception('ERROR SCRAPING: request[%s]', response.status_code)
             pass
-        
-        
 
     return output
 
@@ -132,13 +135,13 @@ def get_suggests(qry, source='bing', sesh=None, sleep=None):
             Pass session to specify headers or maintain connection while building trees.
     """
     sesh = sesh if sesh else requests.Session()
-    
+
     tree = {}
     tree['qry'] = qry
     tree['datetime'] = str(datetime.utcnow())
     tree['source'] = source
-    tree['data'] = scraper(qry, source, sesh, sleep)
-    
+    tree['data'] = _scraper(qry, source, sesh, sleep)
+
     # Attempt parsing
     parser = parsing.parse_bing if source == 'bing' else parsing.parse_google
     parsed = parser(tree['data'], qry)
@@ -148,7 +151,7 @@ def get_suggests(qry, source='bing', sesh=None, sleep=None):
 
 # Suggestions tree
 def get_suggests_tree(root, source='bing', max_depth=3, save_to='', sesh=None,
-    crawl_id=None, sleep=None):
+                      crawl_id=None, sleep=None):
     """Retrieve autocomplete suggestions tree for a root query
     
     Parameters
@@ -189,21 +192,21 @@ def get_suggests_tree(root, source='bing', max_depth=3, save_to='', sesh=None,
 
     # Recurse
     while depth < max_depth:
-        suggests = {d['qry']: d['suggests'] for d in tree if d['depth']==depth}
+        suggests = {d['qry']: d['suggests'] for d in tree if d['depth'] == depth}
         depth += 1
-        
+
         for qry, suggest_list in suggests.items():
             if suggest_list:
                 for s in suggest_list:
-                    if s not in all_suggests: # Don't crawl self-loops or duplicates
-                        branches = get_suggests(s, source, sesh, sleep)                    
+                    if s not in all_suggests:  # Don't crawl self-loops or duplicates
+                        branches = get_suggests(s, source, sesh, sleep)
                         branches['depth'] = depth
                         branches['root'] = root
                         branches['crawl_id'] = crawl_id
-                        if save_to: 
+                        if save_to:
                             outfile.write(f'{json.dumps(branches)}\n')
-                        tree.append(branches)            
+                        tree.append(branches)
                         all_suggests.add(s)
-                        
+
     if save_to: outfile.close()
     return tree
