@@ -9,6 +9,8 @@ from numpy import random
 from datetime import datetime
 import string
 
+from typing import List
+
 from . import parsing
 from . import logger
 
@@ -19,24 +21,24 @@ log = logger.Logger().start()
 ##  Scraper
 ##-----------------------------------------------------------------------------
 
-def _sleep_random(x=0.7, y=1.4):
+def _sleep_random(x: float = 0.7, y: float = 1.4) -> None:
     """Sleep a random time with noise between x and y seconds"""
     time.sleep(random.uniform(x, y))
 
 
-def _prepare_qry(qry):
+def _prepare_qry(qry: str) -> str:
     return urllib.parse.quote_plus(qry)
 
 
-def _get_google_url():
+def _get_google_url() -> str:
     return 'https://www.google.de/complete/search?sclient=psy-ab&hl=de&q='
 
 
-def _get_bing_url(cvid='&cvid=CF23583902D944F1874B7D9E36F452CD'):
+def _get_bing_url(cvid: str = '&cvid=CF23583902D944F1874B7D9E36F452CD') -> str:
     return f'http://www.bing.de/AS/Suggestions?&mkt=de-de{cvid}&q='
 
 
-def _scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
+def _scraper(qry: str, source: str = 'bing', sesh: str = None, sleep: float = None, allow_zip: bool = False) -> list:
     """Scraper with logging and specified user agent
     
     Parameters
@@ -120,7 +122,7 @@ def _scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
 ##  Get Suggestions
 ##-----------------------------------------------------------------------------
 
-def get_suggests(qry, source='bing', sesh=None, sleep=None):
+def get_suggests(qry, source: str = 'bing', sesh: str = None, sleep: float = None) -> dict:
     """ Scrape and parse search engine suggestion data for a query.
     
     Parameters
@@ -136,11 +138,8 @@ def get_suggests(qry, source='bing', sesh=None, sleep=None):
     """
     sesh = sesh if sesh else requests.Session()
 
-    tree = {}
-    tree['qry'] = qry
-    tree['datetime'] = str(datetime.utcnow())
-    tree['source'] = source
-    tree['data'] = _scraper(qry, source, sesh, sleep)
+    tree = {'qry': qry, 'datetime': str(datetime.utcnow()), 'source': source,
+            'data': _scraper(qry, source, sesh, sleep)}
 
     # Attempt parsing
     parser = parsing.parse_bing if source == 'bing' else parsing.parse_google
@@ -150,8 +149,8 @@ def get_suggests(qry, source='bing', sesh=None, sleep=None):
 
 
 # Suggestions tree
-def get_suggests_tree(root, source='bing', max_depth=3, save_to='', sesh=None,
-                      crawl_id=None, sleep=None):
+def get_suggests_tree(root: str, source: str = 'bing', max_depth: int = 3, save_to: str = '', sesh: str = None,
+                      crawl_id = None, sleep: float = None) -> list:
     """Retrieve autocomplete suggestions tree for a root query
     
     Parameters
@@ -208,5 +207,6 @@ def get_suggests_tree(root, source='bing', max_depth=3, save_to='', sesh=None,
                         tree.append(branches)
                         all_suggests.add(s)
 
-    if save_to: outfile.close()
+    if save_to:
+        outfile.close()
     return tree
