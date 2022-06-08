@@ -21,7 +21,7 @@ def export_to_csv(df, path, sep=';'):
 
 def main():
     import_path = 'rai_app/import_file/import.xlsx'
-    export_path = 'rai_app/export_file/export.csv'
+    export_path = 'rai_app/export_file/'
 
     file = load_data(import_path)
     df = pd.DataFrame()
@@ -43,7 +43,9 @@ def main():
             pass
 
     # Export
-    export_to_csv(df, export_path)
+    df.to_csv(export_path+'export.csv', sep=';', encoding='utf-8-sig')
+    df.to_pickle(export_path+'export.pickle')
+    df.to_json(export_path+'export.json')
  
 
 if __name__ == "__main__":
