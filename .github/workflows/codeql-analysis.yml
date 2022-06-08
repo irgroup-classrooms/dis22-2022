@@ -7,6 +7,7 @@ on:
     branches:
     - main
     - 15-umgang-mit-legacy-problemen
+    - 48-export-als-pickle-oder-json-datei
   pull_request:
     # The branches below must be a subset of the branches above
     branches:
