@@ -147,7 +147,12 @@ def get_suggests(qry, source='bing', sesh=None, sleep=None):
 
 
 # Suggestions tree
-def get_suggests_tree(root, source='bing', max_depth=3, save_to='', sesh=None,
+def get_suggests_tree(root, source, max_depth, 
+    proxy_username,
+    proxy_password,
+    proxy_host,
+    proxy_port,
+    save_to='', sesh=None,
     crawl_id=None, sleep=None):
     """Retrieve autocomplete suggestions tree for a root query
     
