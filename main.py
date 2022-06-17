@@ -12,9 +12,32 @@ def load_data(file):
 def get_user_input():
     input_source = input('Which search engine? Available selection: "google" or "bing"\n Input: ')
     input_max_depth = int(input('To what maximum depth should the search be carried out? Note: It is recommended to start with 1 \n Input: '))
-    user_input = {'source': input_source,
-             'max_depth': input_max_depth}
-    return user_input
+    option = input('Do you want to use a Proxy Server? [y/n] \n Input: ')
+    if option == 'n':
+        user_input = {  'source': input_source,
+                    'max_depth': input_max_depth,
+                    'proxy_username': None,
+                    'proxy_password': None,
+                    'proxy_host': None,
+                    'proxy_port': None
+                    }
+        return user_input
+    elif option == 'y':
+        proxy_username = input('Username: ')
+        proxy_password = input('Password: ')
+        proxy_host = input('Host: ')
+        proxy_port = input('Port: ')
+
+
+        user_input = {  'source': input_source,
+                    'max_depth': input_max_depth,
+                    'proxy_username': proxy_username,
+                    'proxy_password': proxy_password,
+                    'proxy_host': proxy_host,
+                    'proxy_port': proxy_port
+                    }
+
+        return user_input
   
 def export_to_csv(df, path, sep=';'):
     df.to_csv(path, sep)
@@ -30,7 +53,16 @@ def main():
     # Crawl querrys and safe output 
     for querry in file['querrys']:
         # Generating a suggestions tree
-        tree = suggests.get_suggests_tree(querry.lower(), source=user_input['source'], max_depth=user_input['max_depth'])
+        tree = suggests.get_suggests_tree(
+            querry.lower(), 
+            source=user_input['source'], 
+            max_depth=user_input['max_depth'],
+            proxy_username=user_input['proxy_username'],
+            proxy_password=user_input['proxy_password'],
+            proxy_host=user_input['proxy_host'],
+            proxy_port=user_input['proxy_port']
+            )
+
         
         # Reduce to new information obtained in suggestions
         edges = suggests.to_edgelist(tree)
