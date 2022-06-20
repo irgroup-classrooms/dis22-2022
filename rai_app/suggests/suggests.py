@@ -30,7 +30,7 @@ def get_google_url():
 def get_bing_url(cvid='&cvid=CF23583902D944F1874B7D9E36F452CD'):
     return f'http://www.bing.de/AS/Suggestions?&mkt=de-de{cvid}&q='
 
-def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
+def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False, proxy_username=None, proxy_password=None, proxy_host=None, proxy_port=None):
     """Scraper with logging and specified user agent
     
     Parameters
@@ -65,7 +65,13 @@ def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
     time.sleep(sleep) if sleep else sleep_random()
     log.info('%s | %s', '%s' % source, qry)
     try:
-        response = sesh.get(url, timeout=10)
+        if proxy_host == None:
+            response = sesh.get(url, timeout=10)
+        if proxy_host != None:
+            proxies = {
+                "https" : str("https://"+proxy_username+":"+proxy_password+"@"+proxy_host+":"+proxy_port)
+            }
+            response = sesh.get(url, timeout=10,proxies=proxies)
         if source == 'google':
             output = json.loads(response.content.decode('latin-1'))
         elif source == 'bing':
@@ -117,7 +123,7 @@ def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False):
 ##  Get Suggestions
 ##-----------------------------------------------------------------------------
 
-def get_suggests(qry, source='bing', sesh=None, sleep=None):
+def get_suggests(qry, source='bing', sesh=None, sleep=None, proxy_username=None, proxy_password=None, proxy_host=None, proxy_port=None):
     """ Scrape and parse search engine suggestion data for a query.
     
     Parameters
@@ -137,7 +143,7 @@ def get_suggests(qry, source='bing', sesh=None, sleep=None):
     tree['qry'] = qry
     tree['datetime'] = str(datetime.utcnow())
     tree['source'] = source
-    tree['data'] = scraper(qry, source, sesh, sleep)
+    tree['data'] = scraper(qry, source, sesh, sleep, False, proxy_username, proxy_password, proxy_host, proxy_port)
     
     # Attempt parsing
     parser = parsing.parse_bing if source == 'bing' else parsing.parse_google
@@ -176,7 +182,7 @@ def get_suggests_tree(root, source, max_depth,
     sesh = sesh if sesh else requests.Session()
 
     depth = 0
-    root_branch = get_suggests(root, source, sesh, sleep)
+    root_branch = get_suggests(root, source, sesh, sleep, proxy_username, proxy_password, proxy_host, proxy_port,)
     root_branch['depth'] = depth
     root_branch['root'] = root
     root_branch['crawl_id'] = crawl_id
