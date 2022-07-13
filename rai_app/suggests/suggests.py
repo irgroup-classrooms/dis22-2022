@@ -64,14 +64,17 @@ def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False, proxy_us
     # Sleep
     time.sleep(sleep) if sleep else sleep_random()
     log.info('%s | %s', '%s' % source, qry)
-    try:
-        if proxy_host == None:
+    
+    if proxy_host == None:
             response = sesh.get(url, timeout=10)
-        if proxy_host != None:
-            proxies = {
-                "https" : str("https://"+proxy_username+":"+proxy_password+"@"+proxy_host+":"+proxy_port)
-            }
-            response = sesh.get(url, timeout=10,proxies=proxies)
+    if proxy_host != None:
+        proxies = {
+            "https" : str("https://"+proxy_username+":"+proxy_password+"@"+proxy_host+":"+proxy_port)
+        }
+        response = sesh.get(url, timeout=10,proxies=proxies)
+     
+
+    try:
         if source == 'google':
             output = json.loads(response.content.decode('latin-1'))
         elif source == 'bing':
