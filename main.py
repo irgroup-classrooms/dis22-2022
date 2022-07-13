@@ -21,7 +21,6 @@ def get_user_input():
                     'proxy_host': None,
                     'proxy_port': None
                     }
-        return user_input
     elif option == 'y':
         proxy_username = input('Username: ')
         proxy_password = input('Password: ')
@@ -37,7 +36,7 @@ def get_user_input():
                     'proxy_port': proxy_port
                     }
 
-        return user_input
+    return user_input
   
 def export_to_csv(df, path, sep=';'):
     df.to_csv(path, sep)
