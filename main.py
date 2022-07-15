@@ -40,7 +40,7 @@ def get_user_input():
                         'proxy_port': proxy_port
                         }
         else:
-            print('try again)    
+            print('try again')    
 
     return user_input
   
