@@ -67,7 +67,7 @@ def scraper(qry, source='bing', sesh=None, sleep=None, allow_zip=False, proxy_us
     
     if proxy_host == None:
             response = sesh.get(url, timeout=10)
-    if proxy_host != None:
+    else:
         proxies = {
             "https" : str("https://"+proxy_username+":"+proxy_password+"@"+proxy_host+":"+proxy_port)
         }
